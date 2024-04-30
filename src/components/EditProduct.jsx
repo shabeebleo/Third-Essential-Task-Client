@@ -4,12 +4,11 @@ import axios from "axios";
 function UpdateProductModal({
   isOpen,
   onClose,
-  setReload,
   price: initialPrice,
   description: initialDescription,
   name: initialName,
   productId,
-  image: initialImage
+  image: initialImage,
 }) {
   const [formData, setFormData] = useState({
     image: initialImage,
@@ -17,7 +16,7 @@ function UpdateProductModal({
     description: initialDescription,
     price: initialPrice,
   });
-
+  console.log(onClose, "onCloseonClose");
   useEffect(() => {
     // Update formData with new props when they change
     setFormData({
@@ -38,10 +37,8 @@ function UpdateProductModal({
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-
-    const token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMwNTJjNzI4YzQ1Y2I2ODY4Njg2OGYiLCJpYXQiOjE3MTQ0NzgzNjksImV4cCI6MTcxNDQ4MTk2OX0.G27JHf-Ls1jChNCctl-MmS-WAiNpXkGAMfVrE93rP_g";
-
+  const token =localStorage.getItem("userToken").toString();
+  const parsedToken=JSON.parse(token)
     try {
       // Make API call to update the product
       await axios.put(
@@ -49,7 +46,7 @@ function UpdateProductModal({
         formData,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${parsedToken}`,
           },
         }
       );
@@ -124,10 +121,11 @@ function UpdateProductModal({
             <button
               type="button"
               className="mr-2 px-4 py-2 text-gray-500 hover:text-gray-700 focus:outline-none"
-              onClick={onClose}
+              onClick={()=>{onClose()}}
             >
               Cancel
             </button>
+        
             <button
               type="submit"
               className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none"
@@ -142,4 +140,3 @@ function UpdateProductModal({
 }
 
 export default UpdateProductModal;
-

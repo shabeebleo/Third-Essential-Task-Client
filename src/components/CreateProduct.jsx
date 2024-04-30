@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-function CreateProductModal({ isOpen, onClose,setReload ,reload}) {
-  console.log(reload,"reloaddddddddd in modalll ");
+function CreateProductModal({ isOpen, onClose}) {
+ 
   const [formData, setFormData] = useState({
     image: "",
     name: "",
@@ -19,15 +19,14 @@ function CreateProductModal({ isOpen, onClose,setReload ,reload}) {
   };
 
   const handleSubmit = async (e) => {
-    const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMwNTJjNzI4YzQ1Y2I2ODY4Njg2OGYiLCJpYXQiOjE3MTQ0NzI0MzIsImV4cCI6MTcxNDQ3NjAzMn0.pZiUcNTOYUR61Uk-hWfbEzd1qgedtFUPVFWEUpnAuG4";
-
+    const token =localStorage.getItem("userToken").toString();
+    const parsedToken=JSON.parse(token)
     e.preventDefault();
     try {
       // Make API call to save the product data
       await axios.post("http://localhost:5050/users/products/", formData, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${parsedToken}`,
           "Content-Type": "application/json",
         },
       });
@@ -96,7 +95,7 @@ function CreateProductModal({ isOpen, onClose,setReload ,reload}) {
             >
               Cancel
             </button>
-            <button onClick={()=>{setReload(true)}}
+            <button
               type="submit"
               className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none"
             >

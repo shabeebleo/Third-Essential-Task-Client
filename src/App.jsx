@@ -3,32 +3,20 @@ import Login from "./components/Login";
 import ProductList from "./components/ProductList";
 import CreateProduct from "./components/CreateProduct";
 import EditProduct from "./components/EditProduct";
+import UserProducts from "./components/Admin/UserProducts";
+import UserList from "./components/Admin/UserList";
 
 export default function App() {
   return (
-    // <Router>
+    <Router>
+      {/* <Route path="/user-products/:userId" component={UserProducts} /> */}
+      <div className="App">
+        <Login />
+        {/* <UserProducts/> */}
+        {/* <ProductList /> */}
 
-    <div className="App">
-      {/* <Login /> */}
-      <ProductList />
-      {/* <CreateProduct /> */}
-      {/* <EditProduct /> */}
-    </div>
-
-    // </Router>
+        {/* <UserList /> */}
+      </div>
+    </Router>
   );
 }
-
-
-
-
-
-{/* <>
-<Routes>
-  <Route path="/" element={<Home />} /> */}
-  {/* <Route path="/login" element={<Login />} />
-  <Route path="/product-list" element={<ProductList />} />
-  <Route path="/create-product" element={<CreateProduct />} />
-  <Route path="/edit-product/:id" element={<EditProduct />} /> */}
-{/* </Routes>
-</> */}
