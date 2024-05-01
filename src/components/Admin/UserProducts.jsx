@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { parseDateTime } from "../../Utils/useDate.jsx";
+import { parseDateTime } from "../../utils/useDate.jsx";
 function ProductList({ user }) {
   console.log("user specific product list");
   const [userData, setUserData] = useState({});

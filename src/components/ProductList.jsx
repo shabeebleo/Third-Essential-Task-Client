@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CreateProductModal from "../components/CreateProduct";
 import UpdateProductModal from "../components/EditProduct";
-import { parseDateTime } from "../Utils/useDate";
+import { parseDateTime } from "../utils/useDate.jsx";
 import Login from "./Login.jsx";
-import { loginUser } from "../../../Third-Essential-Server/controllers/userController";
+
 function ProductList() {
   const [products, setProducts] = useState([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -14,6 +14,7 @@ function ProductList() {
   const openCreateModal = () => {
     setIsCreateModalOpen(true);
   };
+
   const openUpdateModal = () => {
     setIsUpdateModalOpen(true);
   };
@@ -21,12 +22,13 @@ function ProductList() {
   const closeCreateModal = () => {
     setIsCreateModalOpen(false);
   };
+
   const closeUpdateModal = () => {
     setIsUpdateModalOpen(false);
   };
-  const token = localStorage.getItem("userToken").toString();
+
+  const token = localStorage.getItem("userToken");
   const parsedToken = JSON.parse(token);
-  console.log(typeof parsedToken, parsedToken, "parsedToken in product listt");
 
   const fetchUserProducts = async () => {
     try {
@@ -35,7 +37,6 @@ function ProductList() {
           Authorization: `Bearer ${parsedToken}`,
         },
       });
-      console.log(response.data, "response.dataresponse.data");
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching user products:", error);
@@ -49,31 +50,26 @@ function ProductList() {
 
   const handleDelete = async (productId) => {
     try {
-      // Make API call to delete the product
       await axios.delete(`http://localhost:5050/users/products/${productId}`, {
         headers: {
           Authorization: `Bearer ${parsedToken}`,
         },
       });
       console.log("Product deleted successfully");
-      // Refresh the product list or update state if needed
     } catch (error) {
       console.error("Error deleting product:", error);
-      // Handle error
     }
   };
 
   const handleLogout = async () => {
     try {
-      // Make sure token is available before proceeding
       if (!parsedToken) {
         throw new Error("No token found");
       }
 
-      // Make a POST request to the logout URL
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:5050/users/logout",
-        null, // No data to send in the request body
+        null,
         {
           headers: {
             Authorization: `Bearer ${parsedToken}`,
@@ -81,22 +77,21 @@ function ProductList() {
         }
       );
 
-   
       localStorage.removeItem("userToken");
-
-      // setIsLoggedOut(false);
+      setIsLoggedOut(true); // Set isLoggedOut to true after successful logout
     } catch (error) {
-      // Handle error if logout fails
       console.error("Logout failed:", error);
-      // Optionally, you can display an error message to the user
     }
   };
 
+  // Render the Login component if the user is logged out
+  if (isLoggedOut) {
+    return <Login />;
+  }
+
+
   return (
     <div>
-      {/* {isLoggedOut ? (
-        <Login />
-      ) : ( */}
         <main className="flex-1 pb-8">
           <div className="flex items-center justify-between py-7 px-10">
             <div>
@@ -275,7 +270,7 @@ function ProductList() {
             </tbody>
           </table>
         </main>
-      {/* )} */}
+      
     </div>
   );
 }
