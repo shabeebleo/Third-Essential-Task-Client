@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom"; // Import Link from React Router
 import { parseDateTime } from "../../utils/useDate.jsx";
 
-function ProductList() {
+function UserList() {
   const [users, setUsers] = useState([]);
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjYzMDU0ZDAxYjk0MTg0MTZkNmJlYjAwIiwiaWF0IjoxNzE0NDkzNTQ4LCJleHAiOjE3MTQ0OTcxNDh9.xVOPQZ7rvvWJtVFM6QeT0BBxAx0m12bRl-Ishqgi998";
+  const token = localStorage.getItem("adminToken");
+  const parsedToken = JSON.parse(token);
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get("http://localhost:5050/admins/users", {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${parsedToken}`,
           },
         });
         setUsers(response?.data);
-        console.log(response);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -24,10 +24,6 @@ function ProductList() {
 
     fetchUsers();
   }, []);
-
-  const handleMoreDetails = (user) => {
-    console.log("More details for:", user);
-  };
 
   return (
     <main className="flex-1 pb-8">
@@ -45,13 +41,12 @@ function ProductList() {
         <tbody>
           {users.map((user) => (
             <tr
-              key={user.email}
+              key={user._id}
               className="hover:bg-gray-100 transition-colors group"
             >
               <td className="py-4 pl-10">{user.username}</td>
               <td className="py-4">{user.email}</td>
               <td className="py-4">
-             
                 <span>
                   {new Date(
                     user.loginTimes[user.loginTimes.length - 1]
@@ -66,8 +61,6 @@ function ProductList() {
                 }mins`}
               </td>
               <td className="py-4">
-             
-
                 <span>
                   {new Date(
                     user.logoutTimes[user.logoutTimes.length - 1]
@@ -83,12 +76,13 @@ function ProductList() {
               </td>
 
               <td>
-                <button
+                {/* Use Link to navigate to the UserProducts page */}
+                <Link
+                  to={{ pathname: "/user-products", state: { user } }}
                   className="inline-flex gap-x-2 items-center py-2.5 px-6 text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
-                  onClick={() => handleMoreDetails(user)}
                 >
                   More Details
-                </button>
+                </Link>
               </td>
             </tr>
           ))}
@@ -98,4 +92,4 @@ function ProductList() {
   );
 }
 
-export default ProductList;
+export default UserList;

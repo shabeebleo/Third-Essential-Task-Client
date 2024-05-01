@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { parseDateTime } from "../../utils/useDate.jsx";
-function ProductList({ user }) {
-  console.log("user specific product list");
-  const [userData, setUserData] = useState({});
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbklkIjoiNjYzMDU0ZDAxYjk0MTg0MTZkNmJlYjAwIiwiaWF0IjoxNzE0NDkyOTEwLCJleHAiOjE3MTQ0OTY1MTB9.6IflI9b-ErK77uFYRhfnopzk-nAjmGXbtJqEImu3seY";
 
+function ProductList({ user }) {
+  console.log(user,"user specific product list");
+  const [userData, setUserData] = useState({});
+   
+  const token = localStorage.getItem("adminToken");
+  const parsedToken = JSON.parse(token);
   useEffect(() => {
     const fetchUserDetails = async () => {
       console.log("fetchUserDetailsfetchUserDetailsfetchUserDetails");
@@ -15,7 +16,7 @@ function ProductList({ user }) {
           `http://localhost:5050/admins/users/activity`,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${parsedToken}`,
             },
           }
         );

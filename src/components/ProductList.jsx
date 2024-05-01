@@ -5,7 +5,7 @@ import UpdateProductModal from "../components/EditProduct";
 import { parseDateTime } from "../utils/useDate.jsx";
 import Login from "./Login.jsx";
 
-function ProductList() {
+function ProductList({setIslogin}) {
   const [products, setProducts] = useState([]);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
@@ -62,9 +62,14 @@ function ProductList() {
   };
 
   const handleLogout = async () => {
+    console.log("handleLogouthandleLogouthandleLogout");
+    setIslogin(false)
     try {
       if (!parsedToken) {
+        // return <Redirect to="/login" />;
         throw new Error("No token found");
+      
+
       }
 
       await axios.post(
@@ -78,8 +83,10 @@ function ProductList() {
       );
 
       localStorage.removeItem("userToken");
+     
       setIsLoggedOut(true); // Set isLoggedOut to true after successful logout
     } catch (error) {
+      
       console.error("Logout failed:", error);
     }
   };

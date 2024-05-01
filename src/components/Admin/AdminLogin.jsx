@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ProductList from "./ProductList";
+import UserList from "./UserList";
 
-function LoginForm({isLogin}) {
-  console.log(isLogin,"isLogin");
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
@@ -19,7 +18,7 @@ function LoginForm({isLogin}) {
   };
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("userToken");
+    const storedToken = localStorage.getItem("adminToken");
     console.log(storedToken);
     if (storedToken) {
       setIsLoggedIn(true);
@@ -34,7 +33,7 @@ function LoginForm({isLogin}) {
 
     try {
       console.log(email, password);
-      const response = await axios.post("http://localhost:5050/users/login/", {
+      const response = await axios.post("http://localhost:5050/admins/login/", {
         email,
         password,
       });
@@ -42,7 +41,7 @@ function LoginForm({isLogin}) {
         console.log(response, "response"); // For debugging
         if (response.data.token) {
           const token = response.data.token.token;
-          localStorage.setItem("userToken", JSON.stringify(token));
+          localStorage.setItem("adminToken", JSON.stringify(token));
           setIsLoggedIn(true);
         } else {
           setErrorMessage("Invalid login response. Token missing.");
@@ -58,8 +57,8 @@ function LoginForm({isLogin}) {
 
   return (
     <div className="">
-      {isLoggedIn&&isLogin ? (
-        <ProductList  />
+      {isLoggedIn ? (
+        <UserList />
       ) : (
         <form onSubmit={handleSubmit} className="max-w-sm mx-auto my-[10%]">
           {errorMessage && <div className="text-red-500">{errorMessage}</div>}
