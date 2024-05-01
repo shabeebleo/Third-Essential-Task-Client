@@ -57,19 +57,18 @@ function ProductList({setIslogin}) {
       });
       console.log("Product deleted successfully");
     } catch (error) {
+    
       console.error("Error deleting product:", error);
     }
   };
 
   const handleLogout = async () => {
     console.log("handleLogouthandleLogouthandleLogout");
-    setIslogin(false)
+    // setIslogin(false)
     try {
       if (!parsedToken) {
         // return <Redirect to="/login" />;
         throw new Error("No token found");
-      
-
       }
 
       await axios.post(
@@ -86,7 +85,10 @@ function ProductList({setIslogin}) {
      
       setIsLoggedOut(true); // Set isLoggedOut to true after successful logout
     } catch (error) {
-      
+    
+      // if(error.response.data.logOut){
+      //   setIsLoggedOut(true)
+      // }
       console.error("Logout failed:", error);
     }
   };

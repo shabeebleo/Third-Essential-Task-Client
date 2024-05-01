@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductList from "./ProductList";
 
-function LoginForm({isLogin}) {
-  console.log(isLogin,"isLogin");
+function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
@@ -58,7 +57,7 @@ function LoginForm({isLogin}) {
 
   return (
     <div className="">
-      {isLoggedIn&&isLogin ? (
+      {isLoggedIn ? (
         <ProductList  />
       ) : (
         <form onSubmit={handleSubmit} className="max-w-sm mx-auto my-[10%]">

@@ -7,14 +7,13 @@ import UserProducts from "./components/Admin/UserProducts";
 import UserList from "./components/Admin/UserList";
 import AdminLogin from "./components/Admin/AdminLogin";
 import UserRegistration from "./components/Admin/UserRegister"
-import { useState } from "react";
 export default function App() {
-  const [isLogin,setIslogin]=useState(true)
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login isLogin={isLogin} />} />
-        <Route path="/product-list" element={<ProductList setIslogin={setIslogin} />} />
+        <Route path="/" element={<Login  />} />
+        <Route path="/product-list" element={<ProductList  />} />
         <Route path="/create-product" element={<CreateProduct />} />
         <Route path="/edit-product" element={<EditProduct />} />
         <Route path="/user-products" element={<UserProducts />} />
