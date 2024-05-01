@@ -3,9 +3,12 @@ import axios from "axios";
 import { parseDateTime } from "../../utils/useDate.jsx";
 import { useNavigate } from "react-router-dom";
 import { CloudinaryContext, Image } from "cloudinary-react";
+import { useLocation } from "react-router-dom";
 function ProductList({ user }) {
   console.log(user, "user specific product list");
-
+  const location = useLocation();
+  const userId = location.state.userId;
+  console.log(userId, "userIduser...............IduserId");
   const cloudName = import.meta.cloudName;
   const [userData, setUserData] = useState({});
 
@@ -17,7 +20,7 @@ function ProductList({ user }) {
       console.log("fetchUserDetailsfetchUserDetailsfetchUserDetails");
       try {
         const response = await axios.get(
-          `http://localhost:5050/admins/users/activity`,
+          `http://localhost:5050/admins/users/activity/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${parsedToken}`,
@@ -25,14 +28,14 @@ function ProductList({ user }) {
           }
         );
 
-        console.log(response,"verum respnsse");
+        console.log(response, "verum respnsse");
         console.log(
           response.data[0],
           "response.dataresponse.dataresponse.dataresponse.dataresponse.data"
         );
 
-  const foundUser = response.data[0]
-  console.log(foundUser,"foundUserfoundUser");
+        const foundUser = response.data[0];
+        console.log(foundUser, "foundUserfoundUser");
         setUserData(foundUser);
       } catch (error) {
         console.error("Error fetching user details:", error);
@@ -52,7 +55,6 @@ function ProductList({ user }) {
     navigate("/user-list");
   };
   return (
-   
     <main className="flex-1 pb-8">
       {/* User details */}
       <div className="py-7 px-10">
@@ -126,8 +128,16 @@ function ProductList({ user }) {
                 /> */}
                 <CloudinaryContext cloudName={import.meta.env.VITE_CLOUD_NAME}>
                   {/* Image component to render Cloudinary image */}
-                  {product.image && <Image publicId={product.image} />}
+                  {product.image && (
+                    <Image
+                      publicId={product.image}
+                      width={150} // Set your desired width
+                      height={150} // Set your desired height
+                      crop="fill" // Adjust cropping to fill the specified dimensions
+                    />
+                  )}
                 </CloudinaryContext>
+
                 <div>
                   <a href="#" className="text-lg font-semibold text-gray-700">
                     {product.name}

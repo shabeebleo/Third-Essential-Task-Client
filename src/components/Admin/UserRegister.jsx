@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link, useNavigate  } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 function RegistrationForm() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -16,7 +16,9 @@ function RegistrationForm() {
   const handleNameChange = (event) => {
     setUsername(event.target.value);
   };
-
+const handleToUserListPage=()=>{
+  navigate('/user-list')
+}
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -61,7 +63,7 @@ function RegistrationForm() {
       if (response.status === 201) {
         // Registration successful
         alert("User registered successfully!");
-        navigate('/user-list');
+        navigate("/user-list");
         // You can redirect the user or do something else here
       } else {
         setErrorMessage("Registration failed. Please try again.");
@@ -163,14 +165,18 @@ function RegistrationForm() {
             required
           />
         </div>
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        >
-          {isLoading ? "Registering..." : "Register"}
-        </button>
+        <div className="flex justify-around">
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            {isLoading ? "Registering..." : "Register"}
+          </button>
+          <button onClick={handleToUserListPage}  className="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
+Back
+          </button>
+        </div>
       </form>
     </div>
   );

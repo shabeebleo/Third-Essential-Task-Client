@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import UserList from "./UserList";
-
+import {useNavigate} from "react-router-dom"
 function LoginForm() {
+const navigate=useNavigate()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const token = localStorage.getItem("adminToken");
-
+ function handleUserLogin(){
+    navigate('/admin-user-registration')
+ }
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -113,6 +116,7 @@ function LoginForm() {
               Remember me
             </label>
           </div>
+          <div className="flex justify-around">
           <button
             type="submit"
             disabled={isLoading}
@@ -120,6 +124,11 @@ function LoginForm() {
           >
             {isLoading ? "Logging in..." : "Submit"}
           </button>
+          <button onClick={handleUserLogin} className="text-white bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-2 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            User Login
+          </button>
+          </div>
+         
         </form>
       )}
     </div>

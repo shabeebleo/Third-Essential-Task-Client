@@ -5,9 +5,12 @@ import { parseDateTime } from "../../utils/useDate.jsx";
 
 function UserList() {
   const navigate = useNavigate();
-  const handleMoreDetails = ({ user }) => {
+  const handleMoreDetails = ( user ) => {
     // Construct the URL with query parameters
-    navigate(`/user-products?userId=${user._id}`, { state: { user } });
+    const userId=user?._id
+    // console.log(user,"useruseruseruser");
+    console.log(userId,"userIduserIduserId");
+    navigate('/user-products', { state: { userId } });
   };
 
 
@@ -112,20 +115,20 @@ function UserList() {
 
               <td>
                 {console.log(user, "useerrr")}
-                <Link
+                {/* <Link
                 
                   to={{ pathname: "/user-products", state: { user } }}
                   className="inline-flex gap-x-2 items-center py-2.5 px-6 text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
                 >
                   More Details
-                </Link>
+                </Link> */}
 
-                {/* <button
+                <button
                   onClick={() => handleMoreDetails(user)}
                   className="inline-flex gap-x-2 items-center py-2.5 px-6 text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
                 >
                   More Details
-                </button> */}
+                </button>
               </td>
             </tr>
           ))}
