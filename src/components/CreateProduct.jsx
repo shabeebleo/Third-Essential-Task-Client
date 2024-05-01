@@ -1,15 +1,11 @@
-
-
-
 import React, { useState } from "react";
 import axios from "axios";
-import { CloudinaryContext, Image } from 'cloudinary-react';
 
 function CreateProductModal({ isOpen, onClose }) {
   // Define Cloudinary configuration
-  const cloudName = "dooc9crf3"; // Access cloudName from Vite environment variables
-  const uploadPreset = "cpivviio"; // Access upload preset from React environment variables
-
+  const cloudName = import.meta.env.VITE_CLOUD_NAME; // Access cloudName from Vite environment variables
+  const uploadPreset = import.meta.env.VITE_UPLOAD_PRESET; // Access upload preset from React environment variables
+  console.log(cloudName, uploadPreset, "uyhgfyufuyikuhgfkjuguog");
   const [formData, setFormData] = useState({
     image: "",
     name: "",
@@ -35,19 +31,17 @@ function CreateProductModal({ isOpen, onClose }) {
     formData.append("cloudName", cloudName);
 
     try {
-      console.log("...............");
       const response = await axios.post(
         `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
         formData
       );
-      console.log(response,"of'''''''''''''''''''''''''' cloudinary");
+      console.log(response, "response from cloudinary link");
       setFormData((prevData) => ({
         ...prevData,
         image: response.data.secure_url,
       }));
-      console.log(response.data.secure_url,"url      of cloud[[[[[[[[[[[[[[[[[[[[[[[inary");
     } catch (error) {
-      console.error("Error[[[[[[[[[[]]]]]]]]]] uploading image:", error);
+      console.error(error);
       // Handle error
     }
   };
@@ -57,7 +51,6 @@ function CreateProductModal({ isOpen, onClose }) {
     e.preventDefault();
     const token = localStorage.getItem("userToken");
     const parsedToken = JSON.parse(token);
-    console.log(formData,"ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
     try {
       // Make API call to save the product data
       await axios.post("http://localhost:5050/users/products/", formData, {
@@ -95,7 +88,9 @@ function CreateProductModal({ isOpen, onClose }) {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="name" className="block font-medium mb-1">Name</label>
+            <label htmlFor="name" className="block font-medium mb-1">
+              Name
+            </label>
             <input
               type="text"
               id="name"
@@ -106,7 +101,9 @@ function CreateProductModal({ isOpen, onClose }) {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="description" className="block font-medium mb-1">Description</label>
+            <label htmlFor="description" className="block font-medium mb-1">
+              Description
+            </label>
             <textarea
               id="description"
               name="description"
@@ -116,7 +113,9 @@ function CreateProductModal({ isOpen, onClose }) {
             ></textarea>
           </div>
           <div className="mb-4">
-            <label htmlFor="price" className="block font-medium mb-1">Price</label>
+            <label htmlFor="price" className="block font-medium mb-1">
+              Price
+            </label>
             <input
               type="number"
               id="price"
@@ -127,6 +126,15 @@ function CreateProductModal({ isOpen, onClose }) {
             />
           </div>
           <div className="flex justify-end">
+            <button
+              type="button"
+              className="mr-2 px-4 py-2 text-gray-500 hover:text-gray-700 focus:outline-none"
+              onClick={() => {
+                onClose();
+              }}
+            >
+              Cancel
+            </button>
             <button
               type="submit"
               className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none"

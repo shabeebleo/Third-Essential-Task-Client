@@ -10,25 +10,32 @@ function ProductList({setIslogin}) {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
-
+const[deleted,setIsdeleted]=useState(false)
   const openCreateModal = () => {
     setIsCreateModalOpen(true);
   };
 
   const openUpdateModal = () => {
+
     setIsUpdateModalOpen(true);
   };
 
   const closeCreateModal = () => {
+    setIsdeleted((prev=>!prev))
     setIsCreateModalOpen(false);
   };
 
   const closeUpdateModal = () => {
+    setIsdeleted((prev=>!prev))
     setIsUpdateModalOpen(false);
   };
 
   const token = localStorage.getItem("userToken");
   const parsedToken = JSON.parse(token);
+
+
+
+  ///fetching user specific products
 
   const fetchUserProducts = async () => {
     try {
@@ -46,7 +53,7 @@ function ProductList({setIslogin}) {
 
   useEffect(() => {
     fetchUserProducts();
-  }, []);
+  }, [deleted]);
 
   const handleDelete = async (productId) => {
     try {
@@ -55,6 +62,7 @@ function ProductList({setIslogin}) {
           Authorization: `Bearer ${parsedToken}`,
         },
       });
+      setIsdeleted((prev=>!prev))
       console.log("Product deleted successfully");
     } catch (error) {
     
@@ -64,10 +72,10 @@ function ProductList({setIslogin}) {
 
   const handleLogout = async () => {
     console.log("handleLogouthandleLogouthandleLogout");
-    // setIslogin(false)
+    
     try {
       if (!parsedToken) {
-        // return <Redirect to="/login" />;
+     
         throw new Error("No token found");
       }
 
@@ -86,9 +94,6 @@ function ProductList({setIslogin}) {
       setIsLoggedOut(true); // Set isLoggedOut to true after successful logout
     } catch (error) {
     
-      // if(error.response.data.logOut){
-      //   setIsLoggedOut(true)
-      // }
       console.error("Logout failed:", error);
     }
   };
