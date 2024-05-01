@@ -12,6 +12,7 @@
   "dependencies": {
     "aws-sdk": "^2.1610.0",
     "axios": "^1.6.8",
+    "cloudinary-react": "^1.8.1",
     "mock-aws-s3": "^4.0.2",
     "nock": "^13.5.4",
     "react": "^18.2.0",

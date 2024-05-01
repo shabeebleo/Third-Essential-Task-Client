@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { parseDateTime } from "../../utils/useDate.jsx";
 import { useNavigate } from "react-router-dom";
+import { CloudinaryContext, Image } from "cloudinary-react";
 function ProductList({ user }) {
   console.log(user, "user specific product list");
+
+  const cloudName = import.meta.cloudName;
   const [userData, setUserData] = useState({});
   const navigate = useNavigate();
   const token = localStorage.getItem("adminToken");
@@ -116,6 +119,10 @@ function ProductList({ user }) {
                   alt=""
                   className="w-40 aspect-w-3 aspect-h-2 rounded-lg object-cover object-top border border-gray-200"
                 />
+                <CloudinaryContext cloudName={cloudName}>
+                  {/* Image component to render Cloudinary image */}
+                  {product.image && <Image publicId={product.image} />}
+                </CloudinaryContext>
                 <div>
                   <a href="#" className="text-lg font-semibold text-gray-700">
                     {product.name}
