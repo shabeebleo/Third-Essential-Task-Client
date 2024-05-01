@@ -8,6 +8,7 @@ function LoginForm() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const token = localStorage.getItem("adminToken");
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);

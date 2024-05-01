@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { parseDateTime } from "../../utils/useDate.jsx";
-
+import { useNavigate } from "react-router-dom";
 function ProductList({ user }) {
-  console.log(user,"user specific product list");
+  console.log(user, "user specific product list");
   const [userData, setUserData] = useState({});
-   
+  const navigate = useNavigate();
   const token = localStorage.getItem("adminToken");
   const parsedToken = JSON.parse(token);
   useEffect(() => {
@@ -36,6 +36,15 @@ function ProductList({ user }) {
     fetchUserDetails();
   }, [user]);
 
+  const handleLogout = () => {
+    localStorage.removeItem("adminToken");
+    window.location.href = "/admin-login";
+  };
+
+  const handleGoToPage = () => {
+    // Implement logic to navigate to another page
+    navigate("/user-list");
+  };
   return (
     <main className="flex-1 pb-8">
       {/* User details */}
@@ -56,12 +65,27 @@ function ProductList({ user }) {
               }mins`}
             </p>
             <p className="text-sm font-medium text-gray-500">
-              Logout Time: 
+              Logout Time:
               <span>{new Date(userData.logoutTimes?.[0]).toDateString()}</span>
               {`  ${parseDateTime(userData.logoutTimes?.[0]).hour}hr: ${
                 parseDateTime(userData.logoutTimes?.[0]).minute
               }mins`}
             </p>
+          </div>
+          <div>
+            <button
+              onClick={handleLogout}
+              className="inline-flex gap-x-2 items-center py-1 px-3 h-10 mx-3 text-white bg-red-600 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
+            >
+              Logout
+            </button>
+            <button
+              onClick={handleGoToPage}
+              className="inline-flex gap-x-2 items-center py-1 px-3 h-10 text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
+            >
+              Back
+              {/* Add SVG icon here if needed */}
+            </button>
           </div>
         </div>
       </div>

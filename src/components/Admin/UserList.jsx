@@ -25,8 +25,24 @@ function UserList() {
     fetchUsers();
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("adminToken");
+    window.location.href = "/admin-login";
+  };
+
   return (
-    <main className="flex-1 pb-8">
+    <main className="flex-1 p-8">
+      <div className="flex justify-between mb-4">
+        <h1 className="text-2xl font-semibold leading-relaxed text-gray-800">
+          User List
+        </h1>
+        <button
+          onClick={handleLogout}
+          className="inline-flex gap-x-2 items-center py-2.5 px-6 text-white bg-red-600 rounded-xl hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
+        >
+          Logout
+        </button>
+      </div>
       {/* User list */}
       <table className="w-full border-b border-gray-200">
         <thead>
