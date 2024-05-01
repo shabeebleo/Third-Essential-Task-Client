@@ -8,6 +8,7 @@ function ProductList({ user }) {
 
   const cloudName = import.meta.cloudName;
   const [userData, setUserData] = useState({});
+
   const navigate = useNavigate();
   const token = localStorage.getItem("adminToken");
   const parsedToken = JSON.parse(token);
@@ -23,13 +24,15 @@ function ProductList({ user }) {
             },
           }
         );
+
+        console.log(response,"verum respnsse");
         console.log(
-          response.data,
+          response.data[0],
           "response.dataresponse.dataresponse.dataresponse.dataresponse.data"
         );
-        const foundUser = response.data.find(
-          (userData) => userData.username === "example2"
-        );
+
+  const foundUser = response.data[0]
+  console.log(foundUser,"foundUserfoundUser");
         setUserData(foundUser);
       } catch (error) {
         console.error("Error fetching user details:", error);
@@ -49,6 +52,7 @@ function ProductList({ user }) {
     navigate("/user-list");
   };
   return (
+   
     <main className="flex-1 pb-8">
       {/* User details */}
       <div className="py-7 px-10">
@@ -56,6 +60,7 @@ function ProductList({ user }) {
           <div>
             <h1 className="text-2xl font-semibold leading-relaxed text-gray-800">
               {userData.username}
+              {console.log(userData)}
             </h1>
             <p className="text-sm font-medium text-gray-500">
               {userData.email}
@@ -114,12 +119,12 @@ function ProductList({ user }) {
               className="hover:bg-gray-100 transition-colors group"
             >
               <td className="flex justify-around  items-center py-4 pl-10">
-                <img
+                {/* <img
                   src={product.image}
                   alt=""
                   className="w-40 aspect-w-3 aspect-h-2 rounded-lg object-cover object-top border border-gray-200"
-                />
-                <CloudinaryContext cloudName={cloudName}>
+                /> */}
+                <CloudinaryContext cloudName={import.meta.env.VITE_CLOUD_NAME}>
                   {/* Image component to render Cloudinary image */}
                   {product.image && <Image publicId={product.image} />}
                 </CloudinaryContext>

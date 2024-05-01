@@ -5,7 +5,6 @@ function CreateProductModal({ isOpen, onClose }) {
   // Define Cloudinary configuration
   const cloudName = import.meta.env.VITE_CLOUD_NAME; // Access cloudName from Vite environment variables
   const uploadPreset = import.meta.env.VITE_UPLOAD_PRESET; // Access upload preset from React environment variables
-  console.log(cloudName, uploadPreset, "uyhgfyufuyikuhgfkjuguog");
   const [formData, setFormData] = useState({
     image: "",
     name: "",

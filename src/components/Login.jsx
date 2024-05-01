@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ProductList from "./ProductList";
+import { useNavigate } from 'react-router-dom';
+
 
 function LoginForm() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
@@ -16,6 +19,12 @@ function LoginForm() {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
+
+  
+  const handleAdminLogin = () => {
+    navigate('/admin-login');
+  };
+
 
   useEffect(() => {
     const storedToken = localStorage.getItem("userToken");
@@ -58,7 +67,7 @@ function LoginForm() {
   return (
     <div className="">
       {isLoggedIn ? (
-        <ProductList  />
+        <ProductList />
       ) : (
         <form onSubmit={handleSubmit} className="max-w-sm mx-auto my-[10%]">
           {errorMessage && <div className="text-red-500">{errorMessage}</div>}
@@ -112,13 +121,37 @@ function LoginForm() {
               Remember me
             </label>
           </div>
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            {isLoading ? "Logging in..." : "Submit"}
-          </button>
+          <div className="flex justify-around">
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="text-white  bg-blue-700 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              {isLoading ? "Logging in..." : "Submit"}
+            </button>
+            <svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  width="24"
+  height="24"
+  fill="none"
+  stroke="currentColor"
+  strokeWidth="2"
+  strokeLinecap="round"
+  strokeLinejoin="round"
+>
+  <path d="M5 12h14M12 5l7 7-7 7" />
+</svg>
+
+            <button
+             onClick={handleAdminLogin}
+              type="submit"
+              disabled={isLoading}
+              className="text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              ADMIN LOGINN
+            </button>
+          </div>
         </form>
       )}
     </div>

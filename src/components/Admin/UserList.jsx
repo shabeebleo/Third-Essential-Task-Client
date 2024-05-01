@@ -1,9 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"; // Import Link from React Router
+import { Link, useNavigate  } from "react-router-dom"; // Import Link from React Router
 import { parseDateTime } from "../../utils/useDate.jsx";
 
 function UserList() {
+  const navigate = useNavigate();
+  const handleMoreDetails = ({ user }) => {
+    // Construct the URL with query parameters
+    navigate(`/user-products?userId=${user._id}`, { state: { user } });
+  };
+
+
+  const handleRegistration = () => {
+    navigate('/admin-user-registration');
+  };
   const [users, setUsers] = useState([]);
   const token = localStorage.getItem("adminToken");
   const parsedToken = JSON.parse(token);
@@ -25,6 +35,9 @@ function UserList() {
     fetchUsers();
   }, []);
 
+
+
+
   const handleLogout = () => {
     localStorage.removeItem("adminToken");
     window.location.href = "/admin-login";
@@ -36,6 +49,12 @@ function UserList() {
         <h1 className="text-2xl font-semibold leading-relaxed text-gray-800">
           User List
         </h1>
+        <button
+          onClick={handleRegistration}
+          className="inline-flex gap-x-2 items-center py-2.5 px-6 text-white bg-red-600 rounded-xl hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
+        >
+          User Registration
+        </button>
         <button
           onClick={handleLogout}
           className="inline-flex gap-x-2 items-center py-2.5 px-6 text-white bg-red-600 rounded-xl hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1"
@@ -92,13 +111,21 @@ function UserList() {
               </td>
 
               <td>
-                {/* Use Link to navigate to the UserProducts page */}
+                {console.log(user, "useerrr")}
                 <Link
+                
                   to={{ pathname: "/user-products", state: { user } }}
                   className="inline-flex gap-x-2 items-center py-2.5 px-6 text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
                 >
                   More Details
                 </Link>
+
+                {/* <button
+                  onClick={() => handleMoreDetails(user)}
+                  className="inline-flex gap-x-2 items-center py-2.5 px-6 text-white bg-indigo-600 rounded-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
+                >
+                  More Details
+                </button> */}
               </td>
             </tr>
           ))}

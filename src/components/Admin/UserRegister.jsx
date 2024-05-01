@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-
+import { Link, useNavigate  } from "react-router-dom"; 
 function RegistrationForm() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -60,6 +61,7 @@ function RegistrationForm() {
       if (response.status === 201) {
         // Registration successful
         alert("User registered successfully!");
+        navigate('/user-list');
         // You can redirect the user or do something else here
       } else {
         setErrorMessage("Registration failed. Please try again.");
